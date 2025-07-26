@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>BMI Calculator</title>
+    <style>
+        body {
+            background: #dff6fd;
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .calc-wrapper {
+            background: #fff;
+            padding: 30px 40px;
+            border-radius: 14px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        h2 {
+            color: #00695c;
+            margin-bottom: 20px;
+        }
+
+        .calculator {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .calc-input {
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #00acc1;
+            border-radius: 8px;
+            outline: none;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .unit-select {
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #00acc1;
+            border-radius: 8px;
+            background: #fff;
+        }
+
+        .calc-btn {
+            padding: 12px;
+            background: #00796b;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .calc-btn:hover {
+            background: #004d40;
+        }
+
+        .calc-result {
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 15px;
+            background: #2196f3;
+            color: #fff;
+            padding: 8px 14px;
+            border-radius: 6px;
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            background: #1565c0;
+        }
+    </style>
+</head>
+<body>
+    <div class="calc-wrapper">
+        <h2>⚖️ BMI Calculator</h2>
+        <form method="POST" class="calculator">
+    <input type="number" name="age" min="1" placeholder="Age" required class="calc-input">
+
+    <input type="number" name="weight" step="any" placeholder="Weight (kg)" required class="calc-input">
+
+    <div class="input-group">
+        <input type="number" name="height" step="any" placeholder="Height" required class="calc-input">
+        <select name="unit" class="unit-select">
+            <option value="cm">cm</option>
+            <option value="m">m</option>
+        </select>
+    </div>
+
+    <button type="submit" class="calc-btn">Calculate</button>
+</form>
+
+{% if result is not none %}
+    <div class="calc-result">
+        Age: {{ age }}<br>
+        BMI: {{ result }}<br>
+        Category: {{ category }}<br><br>
+        <em style="color: #154741;">{{ suggestion }}</em>
+    </div>
+{% endif %}
+
+
+        <div style="text-align: center;">
+  <a href="/" class="back-btn">⬅ Home</a>
+</div>
+
+    </div>
+</body>
+</html>

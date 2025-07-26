@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Date Difference Calculator</title>
+    <style>
+        body {
+            background: #f0fdf4;
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .calc-wrapper {
+            background: #fff;
+            padding: 30px 40px;
+            border-radius: 14px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        h2 {
+            color: #2e7d32;
+            margin-bottom: 20px;
+        }
+
+        .calculator {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .calc-input {
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #81c784;
+            border-radius: 8px;
+            outline: none;
+        }
+
+        .calc-btn {
+            padding: 12px;
+            background: #388e3c;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .calc-btn:hover {
+            background: #1b5e20;
+        }
+
+        .calc-result {
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 15px;
+            background: #2196f3;
+            color: #fff;
+            padding: 8px 14px;
+            border-radius: 6px;
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            background: #1565c0;
+        }
+    </style>
+</head>
+<body>
+    <div class="calc-wrapper">
+        <h2>📅 Date Difference Calculator</h2>
+        <form method="POST" class="calculator">
+    <label for="date1">From Date:</label>
+    <input type="date" id="date1" name="date1" required class="calc-input">
+
+    <label for="date2">To Date:</label>
+    <input type="date" id="date2" name="date2" required class="calc-input">
+
+    <button type="submit" class="calc-btn">Calculate Difference</button>
+</form>
+
+        {% if result %}
+        <div class="calc-result">
+            {{ result }}
+        </div>
+        {% endif %}
+
+        <div style="text-align: center;">
+  <a href="/" class="back-btn">⬅ Home</a>
+</div>
+
+    </div>
+
+    <script>
+        function validateDates() {
+            const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+            const date1 = document.getElementById('date1').value.trim();
+            const date2 = document.getElementById('date2').value.trim();
+
+            if (!dateRegex.test(date1) || !dateRegex.test(date2)) {
+                alert("❌ Please enter both dates in YYYY-MM-DD format.");
+                return false;
+            }
+
+            const d1 = new Date(date1);
+            const d2 = new Date(date2);
+
+            if (isNaN(d1) || isNaN(d2)) {
+                alert("❌ One or both dates are invalid.");
+                return false;
+            }
+
+            return true;
+        }
+    </script>
+</body>
+</html>

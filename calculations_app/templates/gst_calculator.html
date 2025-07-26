@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GST Calculator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f9fbe7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .gst-box {
+            background: white;
+            padding: 30px;
+            border-radius: 14px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        h2 {
+            color: #33691e;
+        }
+
+        input[type="number"] {
+            padding: 10px;
+            width: 100%;
+            font-size: 16px;
+            border: 2px solid #aed581;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        button {
+            padding: 12px;
+            background-color: #558b2f;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #33691e;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 15px;
+            background: #2196f3;
+            color: #fff;
+            padding: 8px 14px;
+            border-radius: 6px;
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            background: #1565c0;
+        }
+    </style>
+</head>
+<body>
+    <div class="gst-box">
+        <h2>🧾 GST Calculator</h2>
+        <form method="POST">
+            <input type="number" name="amount" placeholder="Enter amount ₹" required>
+            <input type="number" name="gst_rate" placeholder="GST rate %" required step="0.01">
+            <button type="submit">Calculate</button>
+        </form>
+
+        {% if gst_amount is not none and total_amount is not none %}
+        <div class="result">
+            <p>GST Amount: ₹{{ gst_amount }}</p>
+            <p>Total Amount (with GST): ₹{{ total_amount }}</p>
+        </div>
+        {% endif %}
+
+        <div style="text-align: center;">
+  <a href="/" class="back-btn">⬅ Home</a>
+</div>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Age Calculator</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #fef9f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .calc-wrapper {
+      background: white;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+      width: 400px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #2c3e50;
+    }
+
+    .calculator {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .calc-input {
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    .calc-btn {
+      padding: 12px;
+      background-color: #27ae60;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .calc-result {
+      margin-top: 20px;
+      padding: 12px;
+      background: #eafaf1;
+      color: #2d572c;
+      border-radius: 8px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    
+    .back-btn {
+      display: inline-block;
+      margin-top: 15px;
+      background: #2196f3;
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 6px;
+      text-decoration: none;
+    }
+
+    .back-btn:hover {
+      background: #1565c0;
+    }
+  </style>
+</head>
+<body>
+
+<div class="calc-wrapper">
+  <h2>🎂 Age Calculator</h2>
+  <form class="calculator" onsubmit="event.preventDefault(); calculateAge();">
+    <input type="text" id="dob" required class="calc-input" placeholder="Select your date of birth">
+    <button type="submit" class="calc-btn">Calculate</button>
+  </form>
+
+  <div id="result" class="calc-result" style="display:none;"></div>
+
+  <div style="text-align: center;">
+  <a href="/" class="back-btn">⬅ Home</a>
+</div>
+
+</div>
+
+<!-- Flatpickr Script -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+  flatpickr("#dob", {
+    maxDate: "today",
+    dateFormat: "Y-m-d",
+    altInput: true,
+    altFormat: "F j, Y",
+    yearRange: [1000, new Date().getFullYear()],
+  });
+
+  function calculateAge() {
+    const dobInput = document.getElementById("dob").value;
+    if (!dobInput) return;
+
+    const dob = new Date(dobInput);
+    const today = new Date();
+
+    if (dob > today) {
+      alert("Date of birth cannot be in the future!");
+      return;
+    }
+
+    let years = today.getFullYear() - dob.getFullYear();
+    let months = today.getMonth() - dob.getMonth();
+    let days = today.getDate() - dob.getDate();
+
+    if (days < 0) {
+      months--;
+      const prevMonth = new Date(today.getFullYear(), today.getMonth(), 0);
+      days += prevMonth.getDate();
+    }
+
+    if (months < 0) {
+      years--;
+      months += 12;
+    }
+
+    const resultText = `Age: ${years} years, ${months} months, ${days} days`;
+    const resultBox = document.getElementById("result");
+    resultBox.textContent = resultText;
+    resultBox.style.display = "block";
+  }
+</script>
+
+</body>
+</html>

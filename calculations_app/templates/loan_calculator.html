@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Loan/EMI Calculator</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #e0f7fa;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .calc-wrapper {
+      background: #fff;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+      width: 360px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .calculator {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .calc-input, .calc-select {
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    .calc-btn {
+      padding: 12px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .calc-btn:hover {
+      background: #0056b3;
+    }
+
+    .calc-result {
+      margin-top: 20px;
+      background: #f1f8e9;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 16px;
+      color: #2e7d32;
+    }
+
+    .back-btn {
+      display: block;
+      margin-top: 16px;
+      text-align: center;
+      text-decoration: none;
+      color: #007bff;
+    }
+
+    .back-btn:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="calc-wrapper">
+    <h2>🧮 Loan/EMI Calculator</h2>
+    <form class="calculator" onsubmit="event.preventDefault(); calculateEMI();">
+      <input type="number" id="principal" step="any" placeholder="Principal Amount (₹)" required class="calc-input">
+
+      <input type="number" id="rate" step="any" placeholder="Interest (as per selected type)" required class="calc-input">
+      <select id="rateType" class="calc-select">
+        <option value="percent">Percentage (%)</option>
+        <option value="fixed">Fixed Amount (₹ total)</option>
+        <option value="per100">₹ per ₹100</option>
+      </select>
+
+      <input type="number" id="duration" placeholder="Time Period" required class="calc-input">
+      <select id="timeUnit" class="calc-select">
+        <option value="months">Months</option>
+        <option value="years">Years</option>
+      </select>
+
+      <button type="submit" class="calc-btn">Calculate</button>
+    </form>
+    <div id="output" class="calc-result" style="display:none;"></div>
+    <div style="text-align: center;">
+  <a href="/" class="back-btn">⬅ Home</a>
+</div>
+
+  </div>
+
+  <script>
+    function calculateEMI() {
+      const principal = parseFloat(document.getElementById('principal').value);
+      const rateValue = parseFloat(document.getElementById('rate').value);
+      const rateType = document.getElementById('rateType').value;
+      const duration = parseFloat(document.getElementById('duration').value);
+      const timeUnit = document.getElementById('timeUnit').value;
+
+      if (principal <= 0 || rateValue < 0 || duration <= 0) {
+        alert("Please enter valid values.");
+        return;
+      }
+
+      let months = timeUnit === 'years' ? duration * 12 : duration;
+
+      let annualRatePercent;
+
+      if (rateType === 'percent') {
+        annualRatePercent = rateValue;
+      } else if (rateType === 'fixed') {
+        // Convert total interest ₹ into annual %
+        annualRatePercent = (rateValue / principal) * 100;
+      } else if (rateType === 'per100') {
+        annualRatePercent = rateValue; // ₹1 per ₹100 = 1%
+      }
+
+      const monthlyRate = annualRatePercent / (12 * 100);
+
+      const emi = (principal * monthlyRate * Math.pow(1 + monthlyRate, months)) /
+                  (Math.pow(1 + monthlyRate, months) - 1);
+
+      document.getElementById('output').style.display = 'block';
+      document.getElementById('output').innerHTML = `📅 Monthly EMI: ₹${emi.toFixed(2)}`;
+    }
+  </script>
+</body>
+</html>

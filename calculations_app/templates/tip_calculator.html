@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tip Calculator</title>
+    <style>
+        body {
+            background: #f0f8ff;
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .calc-wrapper {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            width: 320px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333;
+        }
+
+        .calculator {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .calc-input {
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .calc-btn {
+            background: #007bff;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .calc-btn:hover {
+            background: #0056b3;
+        }
+
+        .calc-result {
+            margin-top: 20px;
+            background: #f9f9f9;
+            padding: 10px;
+            border-radius: 8px;
+            color: #333;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 16px;
+            text-decoration: none;
+            color: #007bff;
+            text-align: center;
+            width: 100%;
+        }
+
+        .back-btn:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="calc-wrapper">
+        <h2>💰 Tip Calculator</h2>
+        <form class="calculator" onsubmit="event.preventDefault(); calculateTip();">
+            <input type="number" id="bill" step="any" placeholder="Bill Amount" required class="calc-input">
+            <input type="number" id="tip" step="any" placeholder="Tip %" required class="calc-input">
+            <input type="number" id="people" step="1" placeholder="Number of People" required class="calc-input">
+            <button type="submit" class="calc-btn">Calculate</button>
+        </form>
+
+        <div class="calc-result" id="output" style="display:none;"></div>
+
+        <div style="text-align: center;">
+  <a href="/" class="back-btn">⬅ Home</a>
+</div>
+
+    </div>
+
+    <script>
+        function calculateTip() {
+            const bill = parseFloat(document.getElementById('bill').value);
+            const tipPercent = parseFloat(document.getElementById('tip').value);
+            const people = parseInt(document.getElementById('people').value);
+
+            if (bill <= 0 || tipPercent < 0 || people <= 0) {
+                alert("Please enter valid positive numbers.");
+                return;
+            }
+
+            const tipAmount = (bill * tipPercent) / 100;
+            const totalAmount = bill + tipAmount;
+            const perPerson = totalAmount / people;
+
+            document.getElementById('output').style.display = 'block';
+            document.getElementById('output').innerHTML = `
+                💵 Tip: $${tipAmount.toFixed(2)} <br>
+                💰 Total: $${totalAmount.toFixed(2)} <br>
+                👤 Per Person: $${perPerson.toFixed(2)}
+            `;
+        }
+    </script>
+</body>
+</html>

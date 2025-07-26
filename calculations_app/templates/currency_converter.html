@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Currency Converter</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #f9f9f9, #e6f0fa);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .currency-converter {
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 600px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #2c3e50;
+      margin-bottom: 25px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    input, select, button {
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: #3498db;
+      box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+    }
+
+    .dropdowns {
+      display: flex;
+      gap: 10px;
+    }
+
+    button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    #result {
+      display: none;
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 10px;
+      font-weight: bold;
+      text-align: center;
+      background-color: #f0f8ff;
+      color: #1c5d99;
+    }
+    
+    .back-btn {
+  display: inline-block;
+  margin-top: 15px;
+  background: #2196f3;
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 6px;
+  text-decoration: none;
+  text-align: center;
+}
+
+
+    .back-btn:hover {
+      background: #1565c0;
+    }
+    @media screen and (max-width: 480px) {
+      .currency-converter {
+        padding: 20px;
+        width: 90%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="currency-converter">
+    <h2>💱 Currency Converter</h2>
+    <form id="currency-form">
+      <input type="number" id="amount" placeholder="Amount" required min="0" step="0.01" />
+
+      <div class="dropdowns">
+        <select id="from" required></select>
+        <select id="to" required></select>
+      </div>
+
+      <button type="submit">Convert</button>
+    </form>
+    
+  <div id="result" class="calc-result" style="display:none;"></div>
+
+  <div style="text-align: center;">
+  <a href="/" class="back-btn">⬅ Home</a>
+</div>
+
+</div>
+
+
+    <div id="result"></div>
+  </div>
+<script>
+  const currencies = [
+    { code: 'USD', name: 'United States Dollar' },
+    { code: 'EUR', name: 'Euro' },
+    { code: 'GBP', name: 'British Pound Sterling' },
+    { code: 'INR', name: 'Indian Rupee' },
+    { code: 'JPY', name: 'Japanese Yen' },
+    { code: 'CNY', name: 'Chinese Yuan' },
+    { code: 'AUD', name: 'Australian Dollar' },
+    { code: 'CAD', name: 'Canadian Dollar' },
+    { code: 'CHF', name: 'Swiss Franc' },
+    { code: 'SGD', name: 'Singapore Dollar' },
+    { code: 'ZAR', name: 'South African Rand' },
+    { code: 'NZD', name: 'New Zealand Dollar' },
+    { code: 'HKD', name: 'Hong Kong Dollar' },
+    { code: 'KRW', name: 'South Korean Won' },
+    { code: 'SEK', name: 'Swedish Krona' },
+    { code: 'NOK', name: 'Norwegian Krone' },
+    { code: 'DKK', name: 'Danish Krone' },
+    { code: 'RUB', name: 'Russian Ruble' },
+    { code: 'BRL', name: 'Brazilian Real' },
+    { code: 'MXN', name: 'Mexican Peso' },
+    { code: 'THB', name: 'Thai Baht' },
+    { code: 'MYR', name: 'Malaysian Ringgit' },
+    { code: 'PHP', name: 'Philippine Peso' },
+    { code: 'IDR', name: 'Indonesian Rupiah' },
+    { code: 'TRY', name: 'Turkish Lira' },
+    { code: 'PLN', name: 'Polish Zloty' },
+    { code: 'AED', name: 'UAE Dirham' },
+    { code: 'SAR', name: 'Saudi Riyal' },
+    { code: 'EGP', name: 'Egyptian Pound' },
+    { code: 'TWD', name: 'New Taiwan Dollar' }
+  ];
+
+  const fromSelect = document.getElementById("from");
+  const toSelect = document.getElementById("to");
+  const resultDiv = document.getElementById("result");
+
+  // Add options to both selects
+  currencies.forEach(({ code, name }) => {
+    const option1 = document.createElement("option");
+    option1.value = code;
+    option1.textContent = `${code} - ${name}`;
+    fromSelect.appendChild(option1);
+
+    const option2 = document.createElement("option");
+    option2.value = code;
+    option2.textContent = `${code} - ${name}`;
+    toSelect.appendChild(option2);
+  });
+
+  fromSelect.value = "USD";
+  toSelect.value = "INR";
+
+  document.getElementById("currency-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const amount = parseFloat(document.getElementById("amount").value);
+    const from = fromSelect.value;
+    const to = toSelect.value;
+
+    if (isNaN(amount) || amount < 0) {
+      resultDiv.textContent = "Please enter a valid non-negative amount.";
+      resultDiv.style.display = "block";
+      resultDiv.style.color = "red";
+      resultDiv.style.backgroundColor = "#ffe5e5";
+      return;
+    }
+
+    fetch(`/api/convert?amount=${amount}&from=${from}&to=${to}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.converted !== undefined) {
+          resultDiv.textContent = `${data.amount} ${data.from} = ${data.converted} ${data.to}`;
+          resultDiv.style.color = "#1c5d99";
+          resultDiv.style.backgroundColor = "#ecf6ff";
+        } else {
+          resultDiv.textContent = data.error || "Conversion failed.";
+          resultDiv.style.color = "red";
+          resultDiv.style.backgroundColor = "#ffe5e5";
+        }
+        resultDiv.style.display = "block";
+      })
+      .catch(err => {
+        resultDiv.textContent = "Something went wrong. Please try again.";
+        resultDiv.style.color = "red";
+        resultDiv.style.backgroundColor = "#ffe5e5";
+        resultDiv.style.display = "block";
+      });
+  });
+</script>
+
+</body>
+</html>

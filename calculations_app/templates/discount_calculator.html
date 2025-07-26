@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Discount Calculator</title>
+    <style>
+        body {
+            background: #f9fbe7;
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .calc-wrapper {
+            background: #fff;
+            padding: 30px 40px;
+            border-radius: 14px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        h2 {
+            color: #4caf50;
+            margin-bottom: 20px;
+        }
+
+        .calculator {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .calc-input {
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #8bc34a;
+            border-radius: 8px;
+            outline: none;
+        }
+
+        .calc-btn {
+            padding: 12px;
+            background: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .calc-btn:hover {
+            background: #388e3c;
+        }
+
+        .calc-result {
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 15px;
+            background: #2196f3;
+            color: #fff;
+            padding: 8px 14px;
+            border-radius: 6px;
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            background: #1565c0;
+        }
+    </style>
+</head>
+<body>
+    <div class="calc-wrapper">
+        <h2>🛒 Discount Calculator</h2>
+        <form method="POST" class="calculator">
+            <input type="number" name="original_price" step="any" placeholder="Original Price" required class="calc-input">
+            <input type="number" name="discount_percent" step="any" placeholder="Discount (%)" required class="calc-input">
+            <button type="submit" class="calc-btn">Calculate</button>
+        </form>
+
+        {% if result is not none %}
+            <div class="calc-result">
+                Discount Amount: ₹{{ discount_amount }}<br>
+                Final Price: ₹{{ result }}
+            </div>
+        {% endif %}
+
+        <div style="text-align: center;">
+  <a href="/" class="back-btn">⬅ Home</a>
+</div>
+
+    </div>
+</body>
+</html>

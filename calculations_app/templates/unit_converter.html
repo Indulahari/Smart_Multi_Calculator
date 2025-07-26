@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Advanced Unit Converter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f8ff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .calc-wrapper {
+      background: white;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+      width: 400px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    h2 {
+      text-align: center;
+      color: #2c3e50;
+    }
+
+    .calculator {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .calc-input {
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    .calc-select-wrapper {
+      max-height: 150px;
+      overflow-y: auto;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    .calc-select {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      outline: none;
+      background-color: #fff;
+    }
+
+    .calc-select option,
+    .calc-select optgroup {
+      font-size: 15px;
+      padding: 6px;
+    }
+
+    .calc-btn {
+      padding: 12px;
+      background-color: #3498db;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .calc-btn:hover {
+      background-color: #2980b9;
+    }
+
+    .calc-result {
+      margin-top: 20px;
+      padding: 12px;
+      background: #eafaf1;
+      color: #2d572c;
+      border-radius: 8px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .back-btn {
+      display: inline-block;
+      margin-top: 15px;
+      background: #2196f3;
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 6px;
+      text-decoration: none;
+    }
+
+    .back-btn:hover {
+      background: #1565c0;
+    }
+  </style>
+</head>
+<body>
+
+<div class="calc-wrapper">
+  <h2>🌐 Advanced Unit Converter</h2>
+  <form class="calculator" onsubmit="event.preventDefault(); convert();">
+    <input type="number" id="value" step="any" placeholder="Enter value" required class="calc-input">
+
+    <div class="calc-select-wrapper">
+      <select id="conversion" class="calc-select">
+        <optgroup label="Temperature">
+          <option value="c_to_f">Celsius → Fahrenheit</option>
+          <option value="f_to_c">Fahrenheit → Celsius</option>
+        </optgroup>
+        <optgroup label="Length">
+          <option value="m_to_ft">Meters → Feet</option>
+          <option value="ft_to_m">Feet → Meters</option>
+          <option value="km_to_miles">Kilometers → Miles</option>
+          <option value="miles_to_km">Miles → Kilometers</option>
+          <option value="inch_to_cm">Inches → Centimeters</option>
+          <option value="cm_to_inch">Centimeters → Inches</option>
+        </optgroup>
+        <optgroup label="Mass">
+          <option value="kg_to_lb">Kilograms → Pounds</option>
+          <option value="lb_to_kg">Pounds → Kilograms</option>
+        </optgroup>
+        <optgroup label="Volume">
+          <option value="l_to_gal">Liters → Gallons</option>
+          <option value="gal_to_l">Gallons → Liters</option>
+        </optgroup>
+        <optgroup label="Area">
+          <option value="sqm_to_sqft">Sq. Meters → Sq. Feet</option>
+          <option value="sqft_to_sqm">Sq. Feet → Sq. Meters</option>
+        </optgroup>
+        <optgroup label="Digital Storage">
+          <option value="mb_to_gb">MB → GB</option>
+          <option value="gb_to_mb">GB → MB</option>
+          <option value="bytes_to_kb">Bytes → KB</option>
+          <option value="kb_to_bytes">KB → Bytes</option>
+        </optgroup>
+        <optgroup label="Power">
+          <option value="watt_to_hp">Watts → Horsepower</option>
+          <option value="hp_to_watt">Horsepower → Watts</option>
+        </optgroup>
+        <optgroup label="Time">
+          <option value="min_to_sec">Minutes → Seconds</option>
+          <option value="sec_to_min">Seconds → Minutes</option>
+          <option value="day_to_hour">Days → Hours</option>
+          <option value="hour_to_day">Hours → Days</option>
+        </optgroup>
+      </select>
+    </div>
+
+    <button type="submit" class="calc-btn">Convert</button>
+  </form>
+
+  <div id="result" class="calc-result" style="display:none;"></div>
+  <div style="text-align: center;">
+  <a href="/" class="back-btn">⬅ Home</a>
+</div>
+
+</div>
+
+<script>
+  function convert() {
+    const value = parseFloat(document.getElementById("value").value);
+    const conversion = document.getElementById("conversion").value;
+    let result = 0;
+
+    switch (conversion) {
+      case "c_to_f": result = (value * 9 / 5) + 32; break;
+      case "f_to_c": result = (value - 32) * 5 / 9; break;
+      case "m_to_ft": result = value * 3.28084; break;
+      case "ft_to_m": result = value / 3.28084; break;
+      case "km_to_miles": result = value * 0.621371; break;
+      case "miles_to_km": result = value / 0.621371; break;
+      case "kg_to_lb": result = value * 2.20462; break;
+      case "lb_to_kg": result = value / 2.20462; break;
+      case "l_to_gal": result = value * 0.264172; break;
+      case "gal_to_l": result = value / 0.264172; break;
+      case "sqm_to_sqft": result = value * 10.7639; break;
+      case "sqft_to_sqm": result = value / 10.7639; break;
+      case "mb_to_gb": result = value / 1024; break;
+      case "gb_to_mb": result = value * 1024; break;
+      case "inch_to_cm": result = value * 2.54; break;
+      case "cm_to_inch": result = value / 2.54; break;
+      case "watt_to_hp": result = value * 0.00134102; break;
+      case "hp_to_watt": result = value / 0.00134102; break;
+      case "min_to_sec": result = value * 60; break;
+      case "sec_to_min": result = value / 60; break;
+      case "day_to_hour": result = value * 24; break;
+      case "hour_to_day": result = value / 24; break;
+      case "bytes_to_kb": result = value / 1024; break;
+      case "kb_to_bytes": result = value * 1024; break;
+    }
+
+    document.getElementById("result").style.display = "block";
+    document.getElementById("result").textContent = `Converted: ${result.toFixed(4)}`;
+  }
+</script>
+
+</body>
+</html>
